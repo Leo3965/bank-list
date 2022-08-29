@@ -61,6 +61,48 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const displayMovements = function (movements, sort = false) {
+  containerMovements.innerHTML = '';
+
+  //const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">
+          ${i + 1}${type}
+        </div>
+        <div class="movements__value">${mov}€</div>
+      </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+displayMovements(account1.movements);
+
+const createUsernames = function (accs) {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+
+};
+createUsernames(accounts);
+
+const calcBalance = function (movements) {
+  // accumulator -> SNOWBALL
+  return movements.reduce((acc, cur, i, arr) => acc + cur, 0);
+};
+
+const balance = calcBalance(account1.movements);
+labelBalance.textContent = `${balance} €`;
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -72,6 +114,25 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map(mov => mov * eurToUsd)
+
+const movementsDescriptions = movements.map((mov, i) =>
+  `Movement ${i+1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
+);
+
+
+const deposits = movements.filter(mov => mov > 0);
+const withdrawals = movements.filter(mov => mov < 0);
+
+const max = movements.reduce((acc, mov) => {
+  if (mov > acc) acc = mov
+  return acc
+}, movements[0])
+
+console.log(max)
 
 /////////////////////////////////////////////////
 /*
@@ -116,19 +177,19 @@ console.log(arr.at(-1));
 
 
 //for (const movement of movements) {
-for (const [index, movement] of movements.entries()) {
-  if (movement > 0) {
-    console.log(`Movement ${index + 1} You deposited ${Math.abs(movement)}`);
-  } else {
-    console.log(`Movement ${index + 1} You withdrew ${Math.abs(movement)}`);
-  }
-}
+// for (const [index, movement] of movements.entries()) {
+//   if (movement > 0) {
+//     console.log(`Movement ${index + 1} You deposited ${Math.abs(movement)}`);
+//   } else {
+//     console.log(`Movement ${index + 1} You withdrew ${Math.abs(movement)}`);
+//   }
+// }
 
-console.log(' --------------- FOREACH --------------- ')
-movements.forEach(function(movement, index, array) {
-  if (movement > 0) {
-    console.log(`Movement ${index + 1} You deposited ${Math.abs(movement)}`);
-  } else {
-    console.log(`Movement ${index + 1} You withdrew ${Math.abs(movement)}`);
-  }
-});
+// console.log(' --------------- FOREACH --------------- ')
+// movements.forEach(function (movement, index, array) {
+//   if (movement > 0) {
+//     console.log(`Movement ${index + 1} You deposited ${Math.abs(movement)}`);
+//   } else {
+//     console.log(`Movement ${index + 1} You withdrew ${Math.abs(movement)}`);
+//   }
+// });
