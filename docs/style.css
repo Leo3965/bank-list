@@ -94,7 +94,7 @@ nav {
   gap: 2rem;
 
   /* NOTE This creates the fade in/out anumation */
-  /* opacity: 0; */
+  opacity: 0;
   transition: all 1s;
 }
 
@@ -206,6 +206,25 @@ nav {
   cursor: pointer;
 }
 
+/* SIGN UP */
+.sign {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin: 10rem auto 0 auto;
+  width: 70%;
+  opacity: 1;
+}
+
+.sign--box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border-radius: 15px;
+  box-shadow: 5px 10px 30px 1px #3333337e;
+}
+
 /* OPERATIONS */
 .operation {
   border-radius: 1rem;
@@ -223,6 +242,10 @@ nav {
 
 .operation--close {
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.operation--sign {
+  background-image: linear-gradient(to top left, #3bc9db, #99e9f2);
 }
 
 h2 {
