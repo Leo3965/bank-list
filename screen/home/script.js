@@ -204,7 +204,7 @@ const loadImg = function (entries, observer) {
     });
     observer.unobserve(entry.target);
 }
-const imageObserver = new IntersectionObserver(loadImg, {root: null, threshold: 0, rootMargin: '-200px'});
+const imageObserver = new IntersectionObserver(loadImg, {root: null, threshold: 0, rootMargin: '200px'});
 imgTargets.forEach(img => {
     imageObserver.observe(img);
 });
@@ -286,3 +286,16 @@ const slider = function () {
 }
 
 slider();
+
+// Activated just after the HTML and JS are downloaded
+document.addEventListener('DOMContentLoaded', e => console.log("HTML parsed and DOM tree built!", e));
+console.log(document.readyState, "Ready!");
+
+// Load event is activated after external files like img and css has been completed loaded
+window.addEventListener('load', e => console.log("All files has been downloaded!", e));
+// This event is created just before the user leaves the page
+window.addEventListener('beforeunload', e => {
+    e.preventDefault();
+    console.log("Bye bye!", e);
+    //e.returnValue = ''; // This prevents the user from leaving
+});
